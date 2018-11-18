@@ -46,7 +46,11 @@ public class WhiskyVerticle extends AbstractVerticle {
         vertx
             .createHttpServer()
             .requestHandler(router::accept)
-            .listen(8080, result -> {
+            .listen(
+                // Retrieve the port from the configuration,
+                // default to 8080.
+                config().getInteger("http.port", 8080),
+                result -> {
                 if (result.succeeded()) {
                     fut.complete();
                 } else {
